@@ -8,6 +8,9 @@ using std::get;
 Data::Data(const std::string &csv_path, const bool header) {
     bool first = true; 
 
+    std::chrono::steady_clock::time_point begin_time = std::chrono::steady_clock::now();
+    std::cout << "Start reading data" << std::endl;
+
     std::unordered_map<std::string, size_t> null_prefix;
     csv::CSVFormat format;
     int n_row = 0;
@@ -21,6 +24,7 @@ Data::Data(const std::string &csv_path, const bool header) {
     // all the value type from it
     csv::CSVReader reader(csv_path, format);
 
+    // TODO: try to remove the unordered_map<string, ...> to vector<tuple>
     std::vector<std::string> col_name = reader.get_col_names();
     for (csv::CSVRow& row: reader) {
         for (int i = 0; i < row.size(); i++) {
@@ -39,7 +43,16 @@ Data::Data(const std::string &csv_path, const bool header) {
             }
         }
         n_row++;
+        if (n_row % 100000 == 0) {
+            std::chrono::steady_clock::time_point end_time = std::chrono::steady_clock::now();
+            auto tookSeconds = std::chrono::duration_cast<std::chrono::seconds>(end_time - begin_time).count();
+            std::cout << "processed " << n_row << " rows, took " << tookSeconds << " seconds" << std::endl;
+        }
     }
+
+    std::chrono::steady_clock::time_point end_time = std::chrono::steady_clock::now();
+    auto tookMins = std::chrono::duration_cast<std::chrono::minutes>(end_time - begin_time).count();
+    std::cout << "processed data: " << n_row << " rows, took " << tookMins << " mins" << std::endl;
 }
 
 std::tuple<ColumnType, int> Data::get_column_index(const Column & col) {
@@ -62,7 +75,6 @@ void Data::metadata_insert(const std::string &col, ColumnType col_type, int pref
         break;
     case ColumnType::Double:
         metadata[col] = std::make_tuple(ColumnType::Double, double_vector.size());
-        double_vector.push_back(std::vector<double>(prefix_null, 0.0));
         break;
     case ColumnType::String:
         metadata[col] = std::make_tuple(ColumnType::String, string_vector.size());
