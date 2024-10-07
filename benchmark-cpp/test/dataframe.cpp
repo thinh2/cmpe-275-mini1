@@ -2,7 +2,7 @@
 #include "dataframe.h"
 
 TEST(TestDataFrame, TestReadCSVNoNull) {
-    Data data("/Users/thinhbui/Thinh/Learning/sjsu/fall-2024/cmpe-275/mini-1/benchmark-2/test/testdata/header_no_null.csv", true);
+    Data data("/Users/thinhbui/Thinh/Learning/sjsu/fall-2024/cmpe-275/mini-1/benchmark-2/test/testdata/header_no_null.csv", true, false);
     std::vector<long long> expected_long = std::vector<long long>{12, 13, 14};
     std::vector<double> expected_double = std::vector<double>{3.5, 3.1, 2.5};
     std::vector<std::string> expected_string = std::vector<std::string>{"TT", "II", "ss"};
@@ -17,7 +17,7 @@ TEST(TestDataFrame, TestReadCSVNoNull) {
 }
 
 TEST(TestDataFrame, TestReadCSVWithNull) {
-    Data data("/Users/thinhbui/Thinh/Learning/sjsu/fall-2024/cmpe-275/mini-1/benchmark-2/test/testdata/header_with_null_value.csv", true);
+    Data data("/Users/thinhbui/Thinh/Learning/sjsu/fall-2024/cmpe-275/mini-1/benchmark-2/test/testdata/header_with_null_value.csv", true, false);
     std::vector<long long> expected_long = std::vector<long long>{12, 13, 0, 13, 14, 14};
     std::vector<double> expected_double = std::vector<double>{0.0, 3.1, 3.5, 0.0, 2.2, 0.0};
     std::vector<std::string> expected_string = std::vector<std::string>{"TT", "II", "TT", "", "", ""};

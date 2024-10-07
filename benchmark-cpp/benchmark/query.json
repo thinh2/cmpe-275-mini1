@@ -1,0 +1,10 @@
+{
+    "data_path": "../../data/nyc/parkingviolations/sample_100k.csv",
+    "data_mode": "lazy-load",
+    "filter": {
+        "col": "Registration State",
+        "op": "eq",
+        "val": "CA"
+    },
+    "filter_mode": "multi-thread"
+}

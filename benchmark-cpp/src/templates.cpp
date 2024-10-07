@@ -24,3 +24,7 @@ template void query_aggregation<double>(Data &input, Aggregate<double> agg);
 template void query_filter<long long>(Data &input, Filter<long long> filter);
 template void query_filter<double>(Data &input, Filter<double> filter);
 template void query_filter<std::string>(Data &input, Filter<std::string> filter);
+
+template void query_filter_multithread<long long>(Data &input, Filter<long long> filter);
+template void query_filter_multithread<double>(Data &input, Filter<double> filter);
+template void query_filter_multithread<std::string>(Data &input, Filter<std::string> filter);
